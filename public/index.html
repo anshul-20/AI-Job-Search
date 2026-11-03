@@ -1,0 +1,1302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Resume Tailor & Autonomous Job Search Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #090d16;
+    --card: rgba(22, 29, 46, 0.75);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-hover: rgba(30, 41, 64, 0.85);
+    --fg: #f1f5f9;
+    --muted: #94a3b8;
+    --primary: #3b82f6;
+    --primary-glow: rgba(59, 130, 246, 0.35);
+    --accent: #8b5cf6;
+    --accent-glow: rgba(139, 92, 246, 0.35);
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+  body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    background: radial-gradient(circle at 15% 15%, #131d36 0%, var(--bg) 60%),
+                radial-gradient(circle at 85% 85%, #1a1538 0%, var(--bg) 60%);
+    color: var(--fg);
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  /* Header */
+  header {
+    border-bottom: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(9, 13, 22, 0.85);
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 0 20px var(--primary-glow);
+  }
+  .brand h1 {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.3px;
+  }
+  .brand span {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .user-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 13px;
+  }
+  .user-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 8px var(--success);
+  }
+  .pulse-dot {
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.8; }
+  }
+
+  /* Navigation Tabs */
+  .nav-tabs {
+    max-width: 1200px;
+    margin: 20px auto 0;
+    padding: 0 24px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--card-border);
+    color: var(--muted);
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .tab-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--fg);
+  }
+  .tab-btn.active {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(139, 92, 246, 0.25));
+    border-color: var(--primary);
+    color: #fff;
+    box-shadow: 0 0 15px var(--primary-glow);
+  }
+
+  /* Main Container */
+  main {
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 24px;
+  }
+  .tab-content {
+    display: none;
+  }
+  .tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Cards */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    margin-bottom: 24px;
+  }
+  .card h2 {
+    margin-top: 0;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .card-subtitle {
+    color: var(--muted);
+    font-size: 13.5px;
+    margin-top: -6px;
+    margin-bottom: 20px;
+  }
+
+  /* Form Elements */
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 6px;
+    margin-top: 14px;
+  }
+  input[type="text"], input[type="url"], select, textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    color: var(--fg);
+    font-family: inherit;
+    font-size: 14px;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.5;
+  }
+
+  /* Upload Drop Zone */
+  .drop-zone {
+    border: 2px dashed rgba(255, 255, 255, 0.18);
+    border-radius: var(--radius);
+    padding: 36px 20px;
+    text-align: center;
+    background: rgba(15, 23, 42, 0.4);
+    cursor: pointer;
+    position: relative;
+  }
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--primary);
+    background: rgba(59, 130, 246, 0.06);
+  }
+  .drop-icon {
+    font-size: 42px;
+    margin-bottom: 12px;
+  }
+  .drop-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border-radius: 8px;
+    border: none;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px var(--primary-glow);
+    text-decoration: none;
+  }
+  .btn:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+  }
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .btn-accent {
+    background: linear-gradient(135deg, var(--accent), #7c3aed);
+    box-shadow: 0 4px 14px var(--accent-glow);
+  }
+  .btn-accent:hover {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  }
+  .btn-success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+  }
+  .btn-outline {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--card-border);
+    box-shadow: none;
+    color: var(--fg);
+  }
+  .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  /* Job List / Results */
+  .job-card {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .job-card:hover {
+    background: rgba(30, 41, 59, 0.7);
+    border-color: rgba(59, 130, 246, 0.4);
+  }
+  .job-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .job-meta {
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    gap: 14px;
+  }
+  .badge {
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(59, 130, 246, 0.15);
+    color: #93c5fd;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+  .badge-ats {
+    background: rgba(139, 92, 246, 0.15);
+    color: #c4b5fd;
+    border-color: rgba(139, 92, 246, 0.3);
+  }
+  .badge-success {
+    background: rgba(16, 185, 129, 0.15);
+    color: #6ee7b7;
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+
+  /* Status and Alerts */
+  .alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+  .alert-success { background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: #6ee7b7; }
+  .alert-error { background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; }
+  .alert-info { background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); color: #93c5fd; }
+
+  /* Profile Summary Grid */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .stat-box {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--card-border);
+    padding: 14px;
+    border-radius: 10px;
+  }
+  .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-val { font-size: 15px; font-weight: 700; color: #fff; margin-top: 4px; }
+
+  /* Autonomous Terminal Console */
+  .console-box {
+    background: #050811;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #e2e8f0;
+    max-height: 380px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    line-height: 1.6;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.7);
+  }
+  .console-line { margin: 2px 0; }
+  .console-line.highlight { color: #38bdf8; font-weight: 600; }
+  .console-line.success { color: #4ade80; }
+  .console-line.warn { color: #fbbf24; }
+  .console-line.error { color: #f87171; }
+
+  /* Tracker Table */
+  .table-responsive {
+    overflow-x: auto;
+    margin-top: 14px;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    text-align: left;
+  }
+  th {
+    background: rgba(15, 23, 42, 0.85);
+    padding: 12px 16px;
+    color: var(--muted);
+    font-weight: 600;
+    border-bottom: 1px solid var(--card-border);
+  }
+  td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+  }
+  tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="logo-badge">⚡</div>
+      <div>
+        <h1>AI Job Search & Autonomous Agent</h1>
+        <span>Zero-Config Discovery • ATS Precision • Auto-Fill</span>
+      </div>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <button class="btn btn-outline" id="linkedinLoginHeaderBtn" onclick="launchLinkedInLogin()" style="padding: 6px 14px; font-size: 12.5px; display: flex; align-items: center; gap: 6px; border-color: rgba(59, 130, 246, 0.4);">
+        <span>🔑</span>
+        <span id="linkedinAuthHeaderLabel">Sign In to LinkedIn</span>
+      </button>
+      <div class="user-badge" id="autoStatusPill">
+        <div class="user-dot" id="autoDot" style="background: var(--muted); box-shadow: none;"></div>
+        <span id="autoStatusText">Auto-Mode: Idle</span>
+      </div>
+      <div class="user-badge" id="activeProfilePill">
+        <div class="user-dot"></div>
+        <span id="activeUserName">Loading profile...</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="nav-tabs">
+  <button class="tab-btn active" onclick="switchTab('uploadTab')">📁 1. Upload Resume</button>
+  <button class="tab-btn" onclick="switchTab('autoTab')">🤖 2. Autonomous Mode</button>
+  <button class="tab-btn" onclick="switchTab('trackerTab')">📋 3. Applications Tracker</button>
+  <button class="tab-btn" onclick="switchTab('tailorTab')">🎯 4. Tailor Single JD</button>
+  <button class="tab-btn" onclick="switchTab('searchTab')">🔍 5. Live Search</button>
+  <button class="tab-btn" onclick="switchTab('profileTab')">👤 6. Profile View</button>
+  <button class="tab-btn" onclick="switchTab('extensionTab')">⚡ 7. Chrome Extension</button>
+</div>
+
+<main>
+  <!-- TAB 1: UPLOAD RESUME -->
+  <div id="uploadTab" class="tab-content active">
+    <div class="card">
+      <h2>Upload Resume — Instant Autonomous Mode</h2>
+      <div class="card-subtitle">
+        Upload your master resume (PDF, Word, TXT, or JSON). As soon as you upload, our AI activates full autonomous mode:
+        it derives your target role, searches ATS career portals & job boards across India and Remote Worldwide, analyzes fit, tailors ATS resumes & cover letters, and auto-fills application forms!
+      </div>
+
+      <div class="drop-zone" id="dropZone">
+        <div class="drop-icon">📄</div>
+        <div style="font-weight: 700; font-size: 16px; margin-bottom: 6px;" id="dropTitle">Drag & Drop your Resume here</div>
+        <div style="color: var(--muted); font-size: 13px;">Supports PDF, JSON, TXT files (or click to browse)</div>
+        <input type="file" id="fileInput" accept=".pdf,.json,.txt,.md">
+      </div>
+
+      <div style="text-align: center; margin: 18px 0; color: var(--muted); font-size: 13px;">— OR PASTE RESUME TEXT —</div>
+
+      <textarea id="rawResumeText" placeholder="Paste your raw resume text, LinkedIn profile, or bio here..."></textarea>
+
+      <!-- Custom Targeting Preferences -->
+      <div style="margin-top: 18px; padding: 18px; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--card-border); border-radius: 10px;">
+        <div style="font-weight: 700; font-size: 14.5px; margin-bottom: 12px; color: #fff; display: flex; align-items: center; gap: 8px;">
+          <span>🎯 Custom Search & Apply Targeting</span>
+          <span style="font-size: 12px; font-weight: 400; color: var(--muted);">(Optional — Leave blank to auto-derive from your resume)</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+          <div>
+            <label style="font-size: 12px;">Specific Role(s) to Target</label>
+            <input type="text" id="uploadRoles" placeholder="e.g. AI Engineer, Full Stack Developer">
+          </div>
+          <div>
+            <label style="font-size: 12px;">Location(s)</label>
+            <input type="text" id="uploadLocation" value="India and Remote">
+          </div>
+          <div>
+            <label style="font-size: 12px;">Job Source</label>
+            <select id="uploadSource">
+              <option value="all" selected>All (ATS + LinkedIn, Indeed, Naukri, RemoteOK)</option>
+              <option value="careers">Direct ATS Pages (Greenhouse, Lever, Ashby)</option>
+              <option value="linkedin">LinkedIn (Follows Outbound Company Links)</option>
+              <option value="naukri">Naukri</option>
+              <option value="indeed">Indeed</option>
+              <option value="remoteok">RemoteOK</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 12px;">Min Match % Threshold</label>
+            <input type="number" id="uploadMinMatch" value="70" min="30" max="100">
+          </div>
+          <div>
+            <label style="font-size: 12px;">Max Jobs to Process</label>
+            <input type="number" id="uploadMaxJobs" value="25" min="1" max="100">
+          </div>
+        </div>
+
+        <div style="margin-top: 14px; display: flex; gap: 20px; flex-wrap: wrap;">
+          <label style="margin: 0; display: flex; align-items: center; gap: 8px; cursor: pointer; color: #fff; font-size: 13.5px;">
+            <input type="checkbox" id="autoEngageCheck" checked style="width: 17px; height: 17px; accent-color: var(--primary);">
+            <span><strong>Autonomous Mode</strong>: Immediately discover, tailor & auto-apply upon upload</span>
+          </label>
+          <label style="margin: 0; display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--muted); font-size: 13.5px;">
+            <input type="checkbox" id="uploadAutoSubmit" style="width: 17px; height: 17px; accent-color: var(--accent);">
+            <span><strong>Auto-Submit</strong> (Unchecked = Pre-fill & hold for human review)</span>
+          </label>
+        </div>
+      </div>
+
+      <div style="margin-top: 18px; display: flex; justify-content: flex-end;">
+        <button class="btn btn-accent" id="uploadBtn" onclick="submitResume()">🚀 Upload & Engage Autonomous Search-to-Apply</button>
+      </div>
+
+      <div id="uploadStatus"></div>
+    </div>
+  </div>
+
+  <!-- TAB 2: AUTONOMOUS MODE CONSOLE -->
+  <div id="autoTab" class="tab-content">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 16px;">
+        <div>
+          <h2 style="margin: 0;">Autonomous Search & Apply Console</h2>
+          <div style="color: var(--muted); font-size: 13.5px; margin-top: 4px;">Real-time execution log of job discovery, ATS fit grading, resume tailoring, and browser form auto-filling.</div>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-outline" onclick="fetchAutoStatus()">🔄 Refresh Status</button>
+          <button class="btn btn-success" id="startAutoBtn" onclick="triggerManualAuto()">⚡ Run Autonomous Cycle</button>
+        </div>
+      </div>
+
+      <!-- LinkedIn Authentication Banner -->
+      <div style="margin-bottom: 16px; padding: 14px 18px; background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="font-size: 22px;">🔑</div>
+          <div>
+            <div style="font-weight: 700; font-size: 14px; color: #fff;">LinkedIn Authentication & Browser Access</div>
+            <div style="font-size: 12.5px; color: var(--muted);" id="linkedinAuthStatusDesc">Connect your account once so autonomous applying can follow outbound company application links.</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-primary" onclick="launchLinkedInLogin()" id="linkedinLoginBtn" style="padding: 8px 16px; font-size: 13px;">🔑 Sign In to LinkedIn (1-Time Setup)</button>
+        </div>
+      </div>
+
+      <!-- Custom Role Controls Toolbar -->
+      <div style="padding: 16px; background: rgba(15, 23, 42, 0.7); border: 1px solid var(--card-border); border-radius: 10px; margin-bottom: 20px;">
+        <div style="font-weight: 700; font-size: 13.5px; margin-bottom: 10px; color: #38bdf8; display: flex; align-items: center; gap: 8px;">
+          <span>⚙️ Custom Roles & Autonomous Run Settings:</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; align-items: flex-end;">
+          <div>
+            <label style="font-size: 12px;">Specific Role(s) (Comma/Pipe Separated)</label>
+            <input type="text" id="autoCustomRoles" placeholder="e.g. AI Engineer, React Native">
+          </div>
+          <div>
+            <label style="font-size: 12px;">Target Location</label>
+            <input type="text" id="autoCustomLocation" value="India and Remote">
+          </div>
+          <div>
+            <label style="font-size: 12px;">Platform Source</label>
+            <select id="autoCustomSource">
+              <option value="all" selected>All (ATS + LinkedIn, Indeed, Naukri, RemoteOK)</option>
+              <option value="careers">Direct ATS Pages (Greenhouse, Lever, Ashby)</option>
+              <option value="linkedin">LinkedIn (External Company Redirects)</option>
+              <option value="naukri">Naukri</option>
+              <option value="indeed">Indeed</option>
+              <option value="remoteok">RemoteOK</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 12px;">Min Match %</label>
+            <input type="number" id="autoCustomMinMatch" value="70" min="30" max="100">
+          </div>
+          <div>
+            <label style="font-size: 12px;">Max Jobs to Process</label>
+            <input type="number" id="autoCustomMaxJobs" value="25" min="1" max="100">
+          </div>
+          <div style="display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 6px;">
+            <label style="margin: 0; display: flex; align-items: center; gap: 6px; cursor: pointer; color: #fff; font-size: 13px;">
+              <input type="checkbox" id="autoCustomAutoSubmit" style="width: 16px; height: 16px; accent-color: var(--accent);">
+              <span>Auto-Submit Form</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Metrics -->
+      <div class="profile-grid" style="margin-bottom: 20px;">
+        <div class="stat-box">
+          <div class="stat-label">Pipeline Status</div>
+          <div class="stat-val" id="metricStatus" style="color: #93c5fd;">Idle</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Target Role Derived</div>
+          <div class="stat-val" id="metricKeywords">—</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Locations Scanned</div>
+          <div class="stat-val" id="metricLocation">India & Remote</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Applications Auto-Filled</div>
+          <div class="stat-val" id="metricApplied" style="color: var(--success);">0</div>
+        </div>
+      </div>
+
+      <!-- Live Terminal Output -->
+      <label>Live Engine Output (Auto-Streaming):</label>
+      <div class="console-box" id="autoConsole">
+[System Ready] Awaiting resume upload or manual trigger to start autonomous search-to-apply sequence...
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: APPLICATIONS TRACKER -->
+  <div id="trackerTab" class="tab-content">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+        <div>
+          <h2 style="margin: 0;">Application Tracker (job_search_tracker.csv)</h2>
+          <div style="color: var(--muted); font-size: 13.5px; margin-top: 4px;">All jobs discovered, tailored, and auto-filled with direct links to generated PDFs.</div>
+        </div>
+        <button class="btn btn-outline" onclick="loadTrackerRecords()">🔄 Refresh Tracker</button>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Company</th>
+              <th>Role</th>
+              <th>Match %</th>
+              <th>Status</th>
+              <th>Tailored PDFs</th>
+              <th>Application Link</th>
+            </tr>
+          </thead>
+          <tbody id="trackerTableBody">
+            <tr><td colspan="7" style="text-align: center; color: var(--muted);">Loading application records...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: TAILOR & APPLY -->
+  <div id="tailorTab" class="tab-content">
+    <div class="card">
+      <h2>Tailor Resume & Cover Letter for Specific Job</h2>
+      <div class="card-subtitle">Paste a job posting URL or job description. Generates an ATS-compliant single-column Resume PDF and targeted Cover Letter PDF.</div>
+
+      <label for="jdUrl">Job Posting URL (Direct ATS or Job Board)</label>
+      <input id="jdUrl" type="url" placeholder="https://boards.greenhouse.io/... or https://jobs.lever.co/...">
+
+      <label for="jdText">or Paste Full Job Description</label>
+      <textarea id="jdText" placeholder="Paste job description here..."></textarea>
+
+      <div style="margin-top: 18px;">
+        <button class="btn" id="tailorBtn" onclick="runTailoring()">🚀 Tailor Resume & Cover Letter</button>
+      </div>
+
+      <div id="tailorResult"></div>
+    </div>
+  </div>
+
+  <!-- TAB 5: LIVE JOB SEARCH -->
+  <div id="searchTab" class="tab-content">
+    <div class="card">
+      <h2>Live Job Discovery</h2>
+      <div class="card-subtitle">Search direct company career portals (Greenhouse, Lever, Ashby, Workable) and job boards in India & Worldwide Remote.</div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+        <div>
+          <label>Target Role / Skills</label>
+          <input id="searchKeywords" type="text" placeholder="e.g. React Native, Machine Learning">
+        </div>
+        <div>
+          <label>Target Location</label>
+          <input id="searchLocation" type="text" value="India and Remote">
+        </div>
+        <div>
+          <label>Source Portal</label>
+          <select id="searchSource">
+            <option value="all" selected>All (ATS + LinkedIn, Indeed, Naukri, RemoteOK)</option>
+            <option value="careers">Direct ATS Pages (Greenhouse, Lever, Ashby)</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="naukri">Naukri (India)</option>
+            <option value="indeed">Indeed</option>
+            <option value="remoteok">RemoteOK (Global Remote)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
+        <button class="btn" id="searchBtn" onclick="executeJobSearch()">🔍 Search Live Postings</button>
+        <button class="btn btn-accent" id="autoSearchBtn" onclick="runAutoForSearchRole()">🤖 Auto-Fetch & Apply All Matching</button>
+      </div>
+
+      <div id="searchActionAlert" style="margin-top: 12px;"></div>
+
+      <div id="searchResults" style="margin-top: 20px;"></div>
+    </div>
+  </div>
+
+  <!-- TAB 6: PROFILE VIEW -->
+  <div id="profileTab" class="tab-content">
+    <div class="card">
+      <h2>Active Candidate Profile</h2>
+      <div class="card-subtitle">The canonical profile data currently driving all job searches and anti-hallucination checks.</div>
+
+      <div class="profile-grid" id="profileGrid">
+        <!-- Injected via JS -->
+      </div>
+
+      <div style="margin-top: 24px;">
+        <button class="btn btn-outline" onclick="loadActiveProfile()">🔄 Refresh Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 7: CHROME EXTENSION (CLIENT-SIDE APPLY) -->
+  <div id="extensionTab" class="tab-content">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 16px;">
+        <div>
+          <h2 style="margin: 0;">⚡ AI Job Apply Copilot — Chrome Extension</h2>
+          <div style="color: var(--muted); font-size: 13.5px; margin-top: 4px;">High-scale client-side application engine for 1,000+ concurrent users with zero server browser overhead.</div>
+        </div>
+        <span class="badge badge-success" style="font-size: 13px; padding: 6px 12px;">Scale Ready (1000+ Users)</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0;">
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--card-border); border-radius: 12px; padding: 18px;">
+          <div style="font-size: 26px; margin-bottom: 8px;">🔑</div>
+          <h3 style="font-size: 15px; color: #fff; margin-bottom: 6px;">1. Always Signed In</h3>
+          <p style="color: var(--muted); font-size: 13px; line-height: 1.5;">Runs directly in your active browser session. Uses your personal LinkedIn, Google, and Workday logins with zero 2FA friction or login hurdles.</p>
+        </div>
+
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--card-border); border-radius: 12px; padding: 18px;">
+          <div style="font-size: 26px; margin-bottom: 8px;">🛡️</div>
+          <h3 style="font-size: 15px; color: #fff; margin-bottom: 6px;">2. Zero Bot / IP Bans</h3>
+          <p style="color: var(--muted); font-size: 13px; line-height: 1.5;">Applications originate natively from your individual residential IP connection, completely bypassing LinkedIn and Cloudflare bot detection.</p>
+        </div>
+
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--card-border); border-radius: 12px; padding: 18px;">
+          <div style="font-size: 26px; margin-bottom: 8px;">🚀</div>
+          <h3 style="font-size: 15px; color: #fff; margin-bottom: 6px;">3. Instant ATS Resume PDF</h3>
+          <p style="color: var(--muted); font-size: 13px; line-height: 1.5;">Tailors and renders an ATS single-column resume PDF with the anti-hallucination guard and automatically attaches it to the application.</p>
+        </div>
+      </div>
+
+      <div style="background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 12px; padding: 22px; margin-top: 10px;">
+        <h3 style="font-size: 16px; color: #fff; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+          <span>📦 30-Second Chrome Installation</span>
+        </h3>
+        <ol style="color: #e2e8f0; font-size: 13.5px; line-height: 1.8; margin-left: 20px;">
+          <li>Open <strong>Google Chrome</strong> (or Brave / Microsoft Edge) and navigate to <code style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; color: #38bdf8;">chrome://extensions</code></li>
+          <li>Turn <strong>ON</strong> the <strong>Developer mode</strong> toggle in the top-right corner.</li>
+          <li>Click the <strong>Load unpacked</strong> button in the top-left corner.</li>
+          <li>Select the <code style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; color: #4ade80;">extension</code> folder located at: <code style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; color: #fff;">d:\AI-Job-Search\extension</code></li>
+          <li>Navigate to any job page on <strong>LinkedIn, Greenhouse, Lever, Workday, or Ashby</strong> — you will see the <strong>⚡ 1-Click Apply</strong> widget ready to auto-fill!</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+let currentResume = null;
+let autoPollTimer = null;
+
+// Tab switcher
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => {
+    el.classList.remove('active');
+    if (el.getAttribute('onclick')?.includes(tabId)) {
+      el.classList.add('active');
+    }
+  });
+  const target = document.getElementById(tabId);
+  if (target) target.classList.add('active');
+
+  if (tabId === 'autoTab') {
+    fetchAutoStatus();
+    startAutoPolling();
+  } else if (tabId === 'trackerTab') {
+    loadTrackerRecords();
+  }
+}
+
+// Load active profile from server
+async function loadActiveProfile() {
+  try {
+    const res = await fetch("/api/resume");
+    if (!res.ok) throw new Error("Could not load resume profile");
+    currentResume = await res.json();
+
+    document.getElementById("activeUserName").textContent = `${currentResume.basics.name} (${currentResume.basics.title})`;
+    document.getElementById("searchKeywords").value = currentResume.basics.title || "";
+    document.getElementById("metricKeywords").textContent = currentResume.basics.title || "Custom";
+
+    if (document.getElementById("uploadRoles") && !document.getElementById("uploadRoles").value) {
+      document.getElementById("uploadRoles").placeholder = currentResume.basics.title || "e.g. AI Engineer, Full Stack Developer";
+    }
+    if (document.getElementById("autoCustomRoles") && !document.getElementById("autoCustomRoles").value) {
+      document.getElementById("autoCustomRoles").value = currentResume.basics.title || "";
+    }
+
+    const grid = document.getElementById("profileGrid");
+    grid.innerHTML = `
+      <div class="stat-box"><div class="stat-label">Full Name</div><div class="stat-val">${currentResume.basics.name}</div></div>
+      <div class="stat-box"><div class="stat-label">Target Role</div><div class="stat-val">${currentResume.basics.title}</div></div>
+      <div class="stat-box"><div class="stat-label">Location</div><div class="stat-val">${currentResume.basics.location}</div></div>
+      <div class="stat-box"><div class="stat-label">Experience</div><div class="stat-val">${currentResume.experience?.length || 0} Roles</div></div>
+      <div class="stat-box"><div class="stat-label">Projects</div><div class="stat-val">${currentResume.projects?.length || 0} Projects</div></div>
+      <div class="stat-box"><div class="stat-label">Skills Categories</div><div class="stat-val">${currentResume.skills?.map(s => s.category).join(", ") || "None"}</div></div>
+    `;
+  } catch (err) {
+    document.getElementById("activeUserName").textContent = "No profile loaded";
+  }
+}
+
+// File drop & selection
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("fileInput");
+
+dropZone.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.classList.add("dragover"); });
+dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+dropZone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+  if (e.dataTransfer.files.length) fileInput.files = e.dataTransfer.files;
+  updateDropLabel();
+});
+fileInput.addEventListener("change", updateDropLabel);
+
+function updateDropLabel() {
+  if (fileInput.files.length) {
+    document.getElementById("dropTitle").textContent = `Selected: ${fileInput.files[0].name}`;
+  }
+}
+
+// Upload & Parse Resume -> Auto Mode Transition
+async function submitResume() {
+  const btn = document.getElementById("uploadBtn");
+  const status = document.getElementById("uploadStatus");
+  btn.disabled = true;
+  btn.textContent = "Parsing & Structuring with AI... (Takes ~10s)";
+  status.innerHTML = "";
+
+  try {
+    let payload = {};
+    if (fileInput.files.length) {
+      const file = fileInput.files[0];
+      const buffer = await file.arrayBuffer();
+      const base64 = btoa(new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+      payload = { base64, filename: file.name };
+    } else {
+      const raw = document.getElementById("rawResumeText").value.trim();
+      if (!raw) throw new Error("Please select a file or paste your resume text.");
+      payload = { text: raw };
+    }
+
+    // Attach custom role targeting preferences
+    payload.target_roles = document.getElementById("uploadRoles")?.value?.trim() || "";
+    payload.location = document.getElementById("uploadLocation")?.value?.trim() || "India and Remote";
+    payload.source = document.getElementById("uploadSource")?.value || "all";
+    payload.min_match_pct = Number(document.getElementById("uploadMinMatch")?.value || 70);
+    payload.max_jobs = Number(document.getElementById("uploadMaxJobs")?.value || 25);
+    payload.auto_apply = document.getElementById("autoEngageCheck")?.checked ?? true;
+    payload.auto_submit = document.getElementById("uploadAutoSubmit")?.checked ?? false;
+
+    const res = await fetch("/api/resume/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Parsing failed");
+
+    status.innerHTML = `
+      <div class="alert alert-success">
+        ✅ <strong>${data.message}</strong><br>
+        Target Roles: <strong>${payload.target_roles || data.resume.basics.title}</strong><br>
+        Switching to Autonomous Console to monitor live job discovery, ATS tailoring, and browser auto-fill...
+      </div>
+    `;
+
+    await loadActiveProfile();
+
+    // If auto engaged, switch directly to auto console
+    if (payload.auto_apply) {
+      setTimeout(() => {
+        switchTab('autoTab');
+        startAutoPolling();
+      }, 1200);
+    }
+  } catch (err) {
+    status.innerHTML = `<div class="alert alert-error">❌ ${err.message}</div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "🚀 Upload & Engage Autonomous Search-to-Apply";
+  }
+}
+
+// Autonomous Engine Status Polling
+async function fetchAutoStatus() {
+  try {
+    const res = await fetch("/api/auto/status");
+    if (!res.ok) return;
+    const data = await res.json();
+
+    const consoleBox = document.getElementById("autoConsole");
+    const dot = document.getElementById("autoDot");
+    const statusText = document.getElementById("autoStatusText");
+    const metricStatus = document.getElementById("metricStatus");
+
+    if (data.running) {
+      dot.style.background = "var(--success)";
+      dot.style.boxShadow = "0 0 10px var(--success)";
+      dot.classList.add("pulse-dot");
+      statusText.textContent = "Auto-Mode: Running...";
+      metricStatus.textContent = "🚀 Active (Searching / Applying)";
+      metricStatus.style.color = "#4ade80";
+      document.getElementById("startAutoBtn").disabled = true;
+    } else {
+      dot.classList.remove("pulse-dot");
+      if (data.status === "completed") {
+        dot.style.background = "var(--primary)";
+        dot.style.boxShadow = "none";
+        statusText.textContent = "Auto-Mode: Completed";
+        metricStatus.textContent = "🏁 Cycle Completed";
+        metricStatus.style.color = "#93c5fd";
+      } else {
+        dot.style.background = "var(--muted)";
+        dot.style.boxShadow = "none";
+        statusText.textContent = "Auto-Mode: Idle";
+        metricStatus.textContent = "Idle";
+        metricStatus.style.color = "var(--muted)";
+      }
+      document.getElementById("startAutoBtn").disabled = false;
+    }
+
+    if (data.summary) {
+      document.getElementById("metricApplied").textContent = data.summary.applied || 0;
+    }
+
+    if (data.logs && data.logs.length) {
+      consoleBox.innerHTML = data.logs.map(line => {
+        let cls = "console-line";
+        if (line.includes("✅") || line.includes("🎉") || line.includes("✨")) cls += " success";
+        else if (line.includes("🎯") || line.includes("🚀")) cls += " highlight";
+        else if (line.includes("⚠️") || line.includes("❌")) cls += " error";
+        return `<div class="${cls}">${escapeHtml(line)}</div>`;
+      }).join("");
+      consoleBox.scrollTop = consoleBox.scrollHeight;
+    }
+  } catch (err) {
+    console.error("Could not fetch auto status:", err);
+  }
+}
+
+function startAutoPolling() {
+  if (autoPollTimer) clearInterval(autoPollTimer);
+  fetchAutoStatus();
+  autoPollTimer = setInterval(fetchAutoStatus, 2500);
+}
+
+async function triggerManualAuto() {
+  const btn = document.getElementById("startAutoBtn");
+  btn.disabled = true;
+  try {
+    const body = {
+      target_roles: document.getElementById("autoCustomRoles")?.value?.trim() || "",
+      location: document.getElementById("autoCustomLocation")?.value?.trim() || "India and Remote",
+      source: document.getElementById("autoCustomSource")?.value || "all",
+      min_match_pct: Number(document.getElementById("autoCustomMinMatch")?.value || 70),
+      max_jobs: Number(document.getElementById("autoCustomMaxJobs")?.value || 25),
+      auto_submit: document.getElementById("autoCustomAutoSubmit")?.checked ?? false,
+    };
+    const res = await fetch("/api/auto/start", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+    fetchAutoStatus();
+    startAutoPolling();
+  } catch (err) {
+    alert("Could not start auto cycle: " + err.message);
+  }
+}
+
+// Applications Tracker Loader
+async function loadTrackerRecords() {
+  const tbody = document.getElementById("trackerTableBody");
+  tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--muted);">Fetching tracker records...</td></tr>`;
+
+  try {
+    const res = await fetch("/api/tracker");
+    if (!res.ok) throw new Error("Could not load tracker records");
+    const data = await res.json();
+
+    if (!data.records || !data.records.length) {
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--muted);">No applications logged yet. Run Autonomous Mode to auto-populate.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = data.records.map(r => {
+      const isAutoFilled = r.Status?.includes("Auto-Filled");
+      const isTailored = r.Status?.includes("Tailored") || r.Status?.includes("Drafted");
+      const badgeCls = isAutoFilled ? "badge-success" : isTailored ? "badge-ats" : "badge";
+      const resumeLink = r["Resume PDF"] ? `<a class="btn btn-outline" style="padding: 4px 10px; font-size: 12px;" href="/api/runs/${encodeURIComponent(r['Resume PDF'])}" target="_blank">📄 Resume</a>` : '—';
+      const coverLink = r["Cover Letter PDF"] ? `<a class="btn btn-outline" style="padding: 4px 10px; font-size: 12px; margin-left: 4px;" href="/api/runs/${encodeURIComponent(r['Cover Letter PDF'])}" target="_blank">✉️ Cover</a>` : '';
+
+      return `
+        <tr>
+          <td>${escapeHtml(r.Date || "—")}</td>
+          <td><strong>${escapeHtml(r.Company || "—")}</strong></td>
+          <td>${escapeHtml(r.Role || "—")}</td>
+          <td><span class="badge">${escapeHtml(r["Match %"] || "—")}</span></td>
+          <td><span class="badge ${badgeCls}">${escapeHtml(r.Status || "Drafted")}</span></td>
+          <td>${resumeLink} ${coverLink}</td>
+          <td>${r["Job URL"] ? `<a class="btn btn-outline" style="padding: 4px 10px; font-size: 12px;" href="${r['Job URL']}" target="_blank">View Posting ↗</a>` : '—'}</td>
+        </tr>
+      `;
+    }).join("");
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--danger);">Failed to load tracker: ${err.message}</td></tr>`;
+  }
+}
+
+// Single Tailor Action
+async function runTailoring() {
+  const btn = document.getElementById("tailorBtn");
+  const out = document.getElementById("tailorResult");
+  btn.disabled = true;
+  btn.textContent = "Analyzing & Rendering PDFs... (~15s)";
+  out.innerHTML = "";
+
+  try {
+    const res = await fetch("/api/tailor", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        url: document.getElementById("jdUrl").value,
+        jd_text: document.getElementById("jdText").value,
+        with_cover: true,
+      }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Tailoring failed");
+
+    out.innerHTML = `
+      <div class="card" style="margin-top: 20px; border-color: rgba(59, 130, 246, 0.4);">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h2>${escapeHtml(data.job.job_title)} @ ${escapeHtml(data.job.company || "Hiring Company")}</h2>
+          <span class="badge" style="font-size: 14px;">Match: ${data.coverage.required_match_pct}%</span>
+        </div>
+        <div style="margin: 16px 0; display:flex; gap: 12px; flex-wrap: wrap;">
+          <a class="btn" href="${data.pdf_url}" target="_blank">📄 Download Resume PDF</a>
+          ${data.cover_pdf_url ? `<a class="btn btn-outline" href="${data.cover_pdf_url}" target="_blank">✉️ Download Cover Letter PDF</a>` : ''}
+          <a class="btn btn-outline" href="${data.report_url}" target="_blank">📊 View Full Report</a>
+          ${document.getElementById("jdUrl").value.trim() ? `
+            <button class="btn btn-success" onclick="launchAutoFill('${document.getElementById("jdUrl").value.trim()}')">
+              🤖 Launch Form Auto-Fill
+            </button>
+          ` : ''}
+        </div>
+        <div id="autofillStatus" style="margin-top: 10px;"></div>
+        <div><strong>Missing Skills:</strong> ${data.coverage.required_missing?.join(", ") || "None"}</div>
+      </div>
+    `;
+  } catch (err) {
+    out.innerHTML = `<div class="alert alert-error">❌ ${err.message}</div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "🚀 Tailor Resume & Cover Letter";
+  }
+}
+
+async function launchAutoFill(url) {
+  const statusEl = document.getElementById("autofillStatus");
+  if (statusEl) statusEl.innerHTML = `<div class="alert alert-info">⏳ Launching Browser Assistant... It will open the application portal, attach your resume, and fill all details.</div>`;
+  try {
+    const res = await fetch("/api/apply/autofill", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    if (statusEl) statusEl.innerHTML = `<div class="alert alert-success">✅ ${data.message}</div>`;
+  } catch (e) {
+    if (statusEl) statusEl.innerHTML = `<div class="alert alert-error">❌ ${e.message}</div>`;
+  }
+}
+
+// Live Job Search
+async function executeJobSearch() {
+  const btn = document.getElementById("searchBtn");
+  const container = document.getElementById("searchResults");
+  btn.disabled = true;
+  btn.textContent = "Searching Live Postings...";
+  container.innerHTML = "";
+
+  try {
+    const k = encodeURIComponent(document.getElementById("searchKeywords").value);
+    const l = encodeURIComponent(document.getElementById("searchLocation").value);
+    const s = encodeURIComponent(document.getElementById("searchSource").value);
+
+    const res = await fetch(`/api/jobs/search?keywords=${k}&location=${l}&source=${s}&limit=12`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Search failed");
+
+    if (!data.jobs || !data.jobs.length) {
+      container.innerHTML = `<div class="alert alert-error">No jobs found. Try broader keywords.</div>`;
+      return;
+    }
+
+    container.innerHTML = data.jobs.map(j => `
+      <div class="job-card">
+        <div>
+          <div class="job-title">${escapeHtml(j.title)} @ ${escapeHtml(j.company)}</div>
+          <div class="job-meta">
+            <span>📍 ${escapeHtml(j.location)}</span>
+            <span class="badge ${j.source.includes('ATS') ? 'badge-ats' : ''}">${escapeHtml(j.source)}</span>
+          </div>
+        </div>
+        <div style="display:flex; gap: 8px; flex-wrap: wrap;">
+          <a class="btn btn-outline" style="padding: 7px 14px; font-size: 13px;" href="${j.link}" target="_blank">View Posting ↗</a>
+          <button class="btn btn-outline" style="padding: 7px 14px; font-size: 13px;" onclick="tailorForJob('${j.link}')">⚡ Tailor Resume</button>
+          <button class="btn btn-success" style="padding: 7px 14px; font-size: 13px;" onclick="oneClickApply('${encodeURIComponent(j.link)}', '${encodeURIComponent(j.title)}', '${encodeURIComponent(j.company)}')">🤖 Auto-Apply</button>
+        </div>
+      </div>
+    `).join("");
+  } catch (err) {
+    container.innerHTML = `<div class="alert alert-error">❌ ${err.message}</div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "🔍 Search Live Postings";
+  }
+}
+
+// 1-Click Tailor & Apply for a specific posting (handles LinkedIn outbound links & company portals)
+async function oneClickApply(encodedUrl, encodedTitle, encodedCompany) {
+  const url = decodeURIComponent(encodedUrl);
+  const title = decodeURIComponent(encodedTitle);
+  const company = decodeURIComponent(encodedCompany);
+  const alertBox = document.getElementById("searchActionAlert");
+
+  if (alertBox) {
+    alertBox.innerHTML = `<div class="alert alert-info">⏳ Launching Intelligent Form Assistant for <strong>${escapeHtml(title)}</strong> @ <strong>${escapeHtml(company)}</strong>... Tailoring resume & redirecting to application portal...</div>`;
+  }
+
+  try {
+    const res = await fetch("/api/apply/job", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url, title, company }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Apply request failed");
+
+    if (alertBox) {
+      alertBox.innerHTML = `<div class="alert alert-success">✅ ${escapeHtml(data.message)}</div>`;
+    }
+  } catch (err) {
+    if (alertBox) {
+      alertBox.innerHTML = `<div class="alert alert-error">❌ Auto-Apply Error: ${escapeHtml(err.message)}</div>`;
+    }
+  }
+}
+
+// Trigger autonomous discovery & auto-apply cycle for the search tab's current role
+async function runAutoForSearchRole() {
+  const k = document.getElementById("searchKeywords").value.trim();
+  const l = document.getElementById("searchLocation").value.trim();
+  const s = document.getElementById("searchSource").value;
+  if (!k) {
+    alert("Please enter a target role or keyword in the search input first.");
+    return;
+  }
+
+  const alertBox = document.getElementById("searchActionAlert");
+  if (alertBox) {
+    alertBox.innerHTML = `<div class="alert alert-info">🚀 Triggering autonomous discovery cycle for "${escapeHtml(k)}"... Switching to Autonomous Console.</div>`;
+  }
+
+  try {
+    const res = await fetch("/api/auto/start", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ target_roles: k, location: l, source: s, max_jobs: 25 }),
+    });
+    const data = await res.json();
+    setTimeout(() => {
+      switchTab("autoTab");
+      startAutoPolling();
+    }, 800);
+  } catch (e) {
+    alert("Could not start auto run: " + e.message);
+  }
+}
+
+function tailorForJob(url) {
+  switchTab('tailorTab');
+  document.getElementById("jdUrl").value = url;
+  document.getElementById("jdText").value = "";
+  runTailoring();
+}
+
+function escapeHtml(str) {
+  if (!str) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+async function launchLinkedInLogin() {
+  const btn = document.getElementById("linkedinLoginBtn");
+  const headerLabel = document.getElementById("linkedinAuthHeaderLabel");
+  const desc = document.getElementById("linkedinAuthStatusDesc");
+  if (btn) btn.disabled = true;
+  if (headerLabel) headerLabel.textContent = "Opening Chrome...";
+  if (desc) desc.textContent = "Opening Chrome window to https://www.linkedin.com/login... Please sign in there.";
+
+  try {
+    const res = await fetch("/api/auth/linkedin", { method: "POST" });
+    const data = await res.json();
+    alert(data.message || "Chrome opened to LinkedIn. Sign in there, and your session will be saved automatically!");
+    startAuthPolling();
+  } catch (err) {
+    alert("Could not open sign-in window: " + err.message);
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
+async function checkAuthStatus() {
+  try {
+    const res = await fetch("/api/auth/status");
+    if (!res.ok) return;
+    const data = await res.json();
+    const headerLabel = document.getElementById("linkedinAuthHeaderLabel");
+    const desc = document.getElementById("linkedinAuthStatusDesc");
+    const btn = document.getElementById("linkedinLoginBtn");
+
+    if (data.loggedIn || data.mode === "remote_debugging") {
+      if (headerLabel) headerLabel.textContent = "LinkedIn Connected";
+      if (desc) desc.innerHTML = `<span style="color: #4ade80; font-weight: 600;">✅ ${escapeHtml(data.message)}</span>`;
+      if (btn) {
+        btn.textContent = "🔄 Re-authenticate";
+        btn.classList.remove("btn-primary");
+        btn.classList.add("btn-outline");
+      }
+    } else {
+      if (headerLabel) headerLabel.textContent = "Sign In to LinkedIn";
+      if (desc) desc.textContent = "Sign in once so autonomous applying can follow outbound company application links.";
+      if (btn) {
+        btn.textContent = "🔑 Sign In to LinkedIn (1-Time Setup)";
+        btn.classList.add("btn-primary");
+        btn.classList.remove("btn-outline");
+      }
+    }
+  } catch {}
+}
+
+let authPollTimer = null;
+function startAuthPolling() {
+  if (authPollTimer) clearInterval(authPollTimer);
+  checkAuthStatus();
+  authPollTimer = setInterval(checkAuthStatus, 3000);
+}
+
+// Initial boot
+loadActiveProfile();
+fetchAutoStatus();
+checkAuthStatus();
+</script>
+</body>
+</html>

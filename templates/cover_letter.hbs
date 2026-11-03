@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{basics.name}} - Cover Letter - {{company}}</title>
+<style>
+  @page { size: A4; margin: 18mm 20mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    margin: 0;
+  }
+  header {
+    border-bottom: 1.5pt solid #222;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: 20pt;
+    margin: 0;
+    letter-spacing: 0.3px;
+    color: #111;
+  }
+  .title {
+    font-size: 11pt;
+    margin: 3px 0 6px;
+    color: #444;
+  }
+  .contact {
+    font-size: 9pt;
+    color: #555;
+  }
+  .date {
+    font-size: 10pt;
+    color: #444;
+    margin-bottom: 16px;
+  }
+  .recipient {
+    margin-bottom: 20px;
+    font-size: 10.5pt;
+    line-height: 1.4;
+    color: #222;
+  }
+  .content p {
+    margin: 0 0 14px;
+    text-align: justify;
+  }
+  .signoff {
+    margin-top: 24px;
+  }
+  .signature-name {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #111;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>{{basics.name}}</h1>
+  <div class="title">{{basics.title}}</div>
+  <div class="contact">{{contactLine}}</div>
+</header>
+
+<div class="date">{{date}}</div>
+
+<div class="recipient">
+  <div>Hiring Team</div>
+  <div><strong>{{company}}</strong></div>
+  {{#if role}}<div>Role: {{role}}</div>{{/if}}
+</div>
+
+<div class="content">
+  {{#each paragraphs}}
+  <p>{{this}}</p>
+  {{/each}}
+</div>
+
+<div class="signoff">
+  <div>Sincerely,</div>
+  <div class="signature-name">{{basics.name}}</div>
+</div>
+
+</body>
+</html>

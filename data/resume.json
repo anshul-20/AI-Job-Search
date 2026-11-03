@@ -1,0 +1,242 @@
+{
+  "basics": {
+    "name": "Anshul Pandey",
+    "title": "Data Scientist | AI/ML Engineer | NLP | Generative AI",
+    "email": "anshulpandey0077@gmail.com",
+    "phone": "+91-74669-97889",
+    "location": "Noida, India",
+    "links": [
+      {
+        "label": "LinkedIn",
+        "url": "linkedin.com/in/anshulpandeyyy"
+      },
+      {
+        "label": "GitHub",
+        "url": "github.com/anshul-20"
+      }
+    ],
+    "summary": "Data Scientist and AI/ML Engineer with 2+ years of experience in machine learning, NLP, recommendation systems, and Generative AI (LLMs, RAG, vector search). Experienced in the end-to-end ML lifecycle, from data preprocessing, EDA, and feature engineering to model training, evaluation, and deployment as production REST APIs. Delivered a 100% lift in Click-Through Rate (CTR) with a production personalization model."
+  },
+  "skills": [
+    {
+      "category": "Machine Learning",
+      "items": [
+        "Supervised Learning",
+        "Classification",
+        "Predictive Modeling",
+        "Recommendation Systems",
+        "Collaborative Filtering",
+        "Feature Engineering",
+        "Model Evaluation",
+        "Statistical Analysis"
+      ]
+    },
+    {
+      "category": "Deep Learning & NLP",
+      "items": [
+        "Deep Learning",
+        "NLP",
+        "Text Embeddings",
+        "Semantic Search",
+        "Transformers",
+        "Text-to-Speech (TTS)",
+        "PyTorch",
+        "TensorFlow"
+      ]
+    },
+    {
+      "category": "Generative AI & LLMs",
+      "items": [
+        "Large Language Models (LLMs)",
+        "RAG",
+        "Prompt Engineering",
+        "AI Agents",
+        "LangChain",
+        "LangGraph",
+        "OpenAI API",
+        "Anthropic Claude API",
+        "Ollama"
+      ]
+    },
+    {
+      "category": "Programming & Data",
+      "items": [
+        "Python",
+        "SQL",
+        "Pandas",
+        "NumPy",
+        "Scikit-learn",
+        "Matplotlib",
+        "Data Preprocessing",
+        "EDA",
+        "Data Visualization",
+        "Data Modeling",
+        "KPI Analysis"
+      ]
+    },
+    {
+      "category": "Deployment & MLOps",
+      "items": [
+        "Flask",
+        "FastAPI",
+        "REST APIs",
+        "Model Deployment",
+        "Model Retraining Pipelines",
+        "APScheduler",
+        "GPU Inference",
+        "Quantization",
+        "Git/GitHub"
+      ]
+    },
+    {
+      "category": "Databases & Tools",
+      "items": [
+        "MySQL",
+        "Elasticsearch",
+        "Apache Pinot",
+        "FAISS",
+        "ChromaDB",
+        "Vector Databases",
+        "JupyterLab",
+        "Google Colab",
+        "VS Code"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "id": "exp-1",
+      "company": "Amar Ujala Web Services Pvt. Ltd.",
+      "role": "Jr. Data Scientist",
+      "location": "Noida",
+      "start": "Mar 2026",
+      "end": null,
+      "bullets": [
+        {
+          "id": "exp-1-1",
+          "text": "Designed and deployed a platform-agnostic content-based recommendation model in production, personalizing feeds from user behavior and preferences and increasing CTR by 100%."
+        },
+        {
+          "id": "exp-1-2",
+          "text": "Debugged and optimized a Maximum Marginal Relevance (MMR) diversity pipeline across four API iterations, improving recommendation relevance and variety."
+        },
+        {
+          "id": "exp-1-3",
+          "text": "Built an item-item collaborative filtering recommender by extracting user events (reads, read-time, clicks, impressions) from Apache Pinot in paginated hourly windows and converting them into weighted implicit ratings."
+        },
+        {
+          "id": "exp-1-4",
+          "text": "Computed cosine similarity on a user-item interaction matrix and served it via a Flask REST API with an automated retraining loop for always-fresh recommendations."
+        },
+        {
+          "id": "exp-1-5",
+          "text": "Built a Flask API comparing Instagram/RSS stories against an Elasticsearch news index to surface topics competitors covered but the newsroom missed, using OpenAI embeddings, FAISS vector search, cosine similarity, and MMR to deduplicate and rank topics by city."
+        },
+        {
+          "id": "exp-1-6",
+          "text": "Scheduled daily aggregation over a rolling 48-hour window, reporting published-vs-missed coverage by category."
+        },
+        {
+          "id": "exp-1-7",
+          "text": "Engineered usage and engagement features and trained classification models to predict subscriber churn risk, delivering a prioritized at-risk list that enabled targeted retention campaigns."
+        }
+      ]
+    },
+    {
+      "id": "exp-2",
+      "company": "Amar Ujala Web Services Pvt. Ltd.",
+      "role": "Data Science Intern",
+      "location": "Noida",
+      "start": "Aug 2025",
+      "end": "Feb 2026",
+      "bullets": [
+        {
+          "id": "exp-2-1",
+          "text": "Developed a multi-platform NLP chatbot across diverse content sources, automating user interactions."
+        },
+        {
+          "id": "exp-2-2",
+          "text": "Implemented GPU-accelerated FAISS indexing for real-time semantic search over large-scale article data, enabling contextually relevant responses."
+        }
+      ]
+    },
+    {
+      "id": "exp-3",
+      "company": "Topper Mantra – Pre-Launch EdTech Startup",
+      "role": "Data Analyst (Contract)",
+      "location": "",
+      "start": "Aug 2022",
+      "end": "Oct 2023",
+      "bullets": [
+        {
+          "id": "exp-3-1",
+          "text": "Designed the pre-launch product analytics strategy, defining KPIs, user journeys, engagement funnels, and learning metrics across students, mentors, content, assessments, and communities."
+        },
+        {
+          "id": "exp-3-2",
+          "text": "Defined an event-tracking taxonomy and analytical data schema capturing user behavior, sessions, content interactions, mentorship, assessments, and retention signals for downstream analytics and ML."
+        },
+        {
+          "id": "exp-3-3",
+          "text": "Partnered with product and engineering to translate requirements into user, session, and learning data models, structuring features for future recommendation and personalization systems."
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-1",
+      "name": "RAG-Based PDF Chatbot",
+      "link": "",
+      "tech": [
+        "Anthropic Claude",
+        "ChromaDB",
+        "Voyage Embeddings"
+      ],
+      "bullets": [
+        {
+          "id": "proj-1-1",
+          "text": "Built a retrieval-augmented generation (RAG) chatbot that chunks PDF text into Voyage embeddings stored in a ChromaDB vector database and uses Claude LLMs to generate grounded, context-aware answers."
+        }
+      ]
+    },
+    {
+      "id": "proj-2",
+      "name": "Hindi Voice Cloning System",
+      "link": "",
+      "tech": [
+        "Python",
+        "PyTorch",
+        "Chatterbox TTS",
+        "GPU Inference"
+      ],
+      "bullets": [
+        {
+          "id": "proj-2-1",
+          "text": "Deployed open-source Chatterbox voice cloning on local GPUs, ensuring full data privacy and near-zero cost versus commercial TTS APIs."
+        },
+        {
+          "id": "proj-2-2",
+          "text": "Built an end-to-end Hindi speech pipeline (text preprocessing, phoneme alignment, inference), optimized with quantization, KV-cache optimization, and token streaming for low-latency output."
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "MCA – Artificial Intelligence & Machine Learning",
+      "institution": "Chandigarh University",
+      "start": "2023",
+      "end": "2025",
+      "score": ""
+    },
+    {
+      "degree": "BCA – Bachelor of Computer Applications",
+      "institution": "MJP Rohilkhand University",
+      "start": "2019",
+      "end": "2022",
+      "score": ""
+    }
+  ],
+  "certifications": []
+}

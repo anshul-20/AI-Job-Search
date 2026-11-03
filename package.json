@@ -1,0 +1,42 @@
+{
+  "name": "resume-tailor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "tailor": "node src/cli.js tailor",
+    "search": "node src/cli.js search",
+    "tracker": "node src/cli.js tracker",
+    "import": "node src/cli.js import",
+    "apply": "node src/cli.js apply",
+    "auto": "node src/scheduler.js",
+    "auto:now": "node src/scheduler.js --now",
+    "analyze": "node src/cli.js analyze",
+    "render": "node src/cli.js render",
+    "login": "node src/cli.js login",
+    "chrome:debug": "powershell -Command \"Start-Process chrome.exe -ArgumentList '--remote-debugging-port=9222'\"",
+    "extension:pack": "node scripts/pack-extension.js",
+    "build": "node scripts/pack-extension.js",
+    "deploy:check": "vitest run && node scripts/pack-extension.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "commander": "^15.0.0",
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "handlebars": "^4.7.10",
+    "openai": "^7.45.1",
+    "pdf-parse": "^1.1.1",
+    "puppeteer": "^25.16.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.5"
+  }
+}

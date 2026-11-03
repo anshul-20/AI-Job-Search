@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "name": "AI Job Apply Copilot",
+  "version": "1.0.0",
+  "description": "1-Click ATS single-column resume tailoring and auto-fill for LinkedIn, Greenhouse, Lever, Workday, and all company career sites.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting",
+    "downloads"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:3000/*",
+    "http://localhost:3000/*",
+    "https://*/*"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "AI Job Apply Copilot",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.linkedin.com/*",
+        "*://jobs.lever.co/*",
+        "*://boards.greenhouse.io/*",
+        "*://job-boards.greenhouse.io/*",
+        "*://*.ashbyhq.com/*",
+        "*://*.myworkdayjobs.com/*",
+        "*://*.workday.com/*",
+        "*://apply.workable.com/*",
+        "*://*.smartrecruiters.com/*",
+        "*://*.indeed.com/*",
+        "*://*.naukri.com/*",
+        "*://*.remoteok.com/*",
+        "*://*/*career*/*",
+        "*://*/*job*/*",
+        "*://*/*apply*/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

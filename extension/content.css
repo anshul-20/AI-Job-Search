@@ -1,0 +1,121 @@
+/* JobCopilot AI - On-Page Floating Widget Styles (Obsidian Cyber Chrome) */
+
+#ai-copilot-host {
+  all: initial;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2147483647; /* Highest z-index */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+}
+
+.ai-copilot-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(9, 13, 18, 0.94);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.7), 0 0 20px rgba(16, 185, 129, 0.25);
+  border-radius: 40px;
+  padding: 6px 14px 6px 10px;
+  color: #f1f5f9;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.ai-copilot-pill:hover {
+  transform: translateY(-2px);
+  border-color: #10b981;
+  box-shadow: 0 14px 34px -4px rgba(0, 0, 0, 0.8), 0 0 25px rgba(6, 182, 212, 0.4);
+}
+
+.ai-copilot-icon {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #090d12;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+.ai-copilot-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: -0.01em;
+}
+
+.ai-copilot-btn {
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  color: #090d12;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.4);
+}
+
+.ai-copilot-btn:hover {
+  filter: brightness(1.08);
+  transform: scale(1.04);
+}
+
+.ai-copilot-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Toast Notification */
+.ai-copilot-toast {
+  position: fixed;
+  bottom: 80px;
+  right: 24px;
+  background: rgba(9, 13, 18, 0.95);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 13px;
+  color: #e2e8f0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 2147483647;
+  animation: ai-slide-up 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 380px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+}
+
+.ai-copilot-toast.success {
+  border-color: rgba(16, 185, 129, 0.6);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7), 0 0 15px rgba(16, 185, 129, 0.3);
+}
+
+.ai-copilot-toast.error {
+  border-color: rgba(239, 68, 68, 0.6);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7), 0 0 15px rgba(239, 68, 68, 0.3);
+}
+
+@keyframes ai-slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Green Highlight Glow for successfully filled fields */
+.ai-filled-field-highlight {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25) !important;
+  transition: all 0.3s ease !important;
+}

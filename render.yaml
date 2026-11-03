@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: jobcopilot-api
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 20.0.0
+      - key: PORT
+        value: 10000
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: OPENROUTER_MODEL
+        value: deepseek/deepseek-chat
+      - key: LLM_TEMPERATURE
+        value: 0.2
+      - key: AUTO_APPLY_ENABLED
+        value: true

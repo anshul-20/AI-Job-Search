@@ -1,0 +1,87 @@
+{
+  "basics": {
+    "name": "Aarav Sharma",
+    "title": "React Native Developer",
+    "email": "aarav.sharma@example.com",
+    "phone": "+91 98765 43210",
+    "location": "Bengaluru, India",
+    "links": [
+      { "label": "GitHub", "url": "github.com/aaravsharma" },
+      { "label": "LinkedIn", "url": "linkedin.com/in/aaravsharma" }
+    ],
+    "summary": "React Native developer with 4 years of experience building and shipping cross-platform mobile apps for fintech and e-commerce products."
+  },
+  "skills": [
+    { "category": "Languages", "items": ["JavaScript", "TypeScript", "Java"] },
+    { "category": "Mobile", "items": ["React Native", "Redux", "Expo", "Android", "iOS"] },
+    { "category": "Backend & APIs", "items": ["Node.js", "REST APIs", "Firebase"] },
+    { "category": "Tools", "items": ["Git", "Jest", "Fastlane", "GitHub Actions", "Figma"] }
+  ],
+  "experience": [
+    {
+      "id": "exp-pay",
+      "company": "PayWave Technologies",
+      "role": "Senior React Native Developer",
+      "location": "Bengaluru, India",
+      "start": "Jan 2023",
+      "end": null,
+      "bullets": [
+        { "id": "exp-pay-1", "text": "Led development of a React Native payments app used by 500K+ users across Android and iOS." },
+        { "id": "exp-pay-2", "text": "Reduced app startup time by 35% by lazy-loading modules and optimizing Redux store initialization." },
+        { "id": "exp-pay-3", "text": "Integrated biometric authentication (FaceID and Fingerprint) compliant with RBI regulations." },
+        { "id": "exp-pay-4", "text": "Built offline-first transaction sync using WatermelonDB and SQLite, reducing failed payment retries by 40%." },
+        { "id": "exp-pay-5", "text": "Mentored 3 junior developers and established automated PR testing via GitHub Actions and Jest." }
+      ]
+    },
+    {
+      "id": "exp-cart",
+      "company": "QuickCart India",
+      "role": "React Native Developer",
+      "location": "Bengaluru, India",
+      "start": "Jul 2021",
+      "end": "Dec 2022",
+      "bullets": [
+        { "id": "exp-cart-1", "text": "Engineered core e-commerce features including live cart updates, product catalog, and push notifications." },
+        { "id": "exp-cart-2", "text": "Achieved 60 FPS animations on low-end Android devices using React Native Reanimated 2." },
+        { "id": "exp-cart-3", "text": "Integrated Razorpay and Paytm payment SDKs, processing over 50,000 daily orders." },
+        { "id": "exp-cart-4", "text": "Decreased app bundle size by 28% using ProGuard and Hermes engine optimizations." }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-chat",
+      "name": "DevChat Mobile",
+      "summary": "Real-time developer chat app with code snippet highlighting.",
+      "bullets": [
+        { "id": "proj-chat-1", "text": "Built cross-platform chat UI with WebSockets and Firebase Cloud Messaging for instant push notifications." },
+        { "id": "proj-chat-2", "text": "Implemented syntax highlighting for 20+ programming languages on mobile screens." }
+      ]
+    },
+    {
+      "id": "proj-fit",
+      "name": "FitPulse Tracker",
+      "summary": "Fitness companion integrating Google Fit and Apple HealthKit APIs.",
+      "bullets": [
+        { "id": "proj-fit-1", "text": "Synced step and heart rate data across platforms with background fetch tasks." }
+      ]
+    },
+    {
+      "id": "proj-budget",
+      "name": "RupeeTracker",
+      "summary": "Local-first expense tracker for Indian UPI transactions.",
+      "bullets": [
+        { "id": "proj-budget-1", "text": "Parsed SMS transaction alerts securely on-device with zero server uploads." }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Visvesvaraya Technological University",
+      "degree": "B.E. in Computer Science and Engineering",
+      "location": "Karnataka, India",
+      "start": "2017",
+      "end": "2021"
+    }
+  ]
+}

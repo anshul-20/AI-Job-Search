@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobCopilot AI - 1-Click ATS Auto-Filler</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Ambient Radial Glows -->
+    <div class="glow glow-top-right"></div>
+    <div class="glow glow-mid-left"></div>
+
+    <!-- Top App Bar -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-text">
+          <span class="brand-title">JobCopilot AI</span>
+          <span class="brand-sub">ATS Client-Side Engine</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="status-pill" id="statusPill">
+          <span class="status-dot pulse" id="statusDot"></span>
+          <span class="status-text" id="statusText">Connecting</span>
+        </div>
+        <button class="icon-btn" id="openSettingsBtn" title="Extension Settings">⚙️</button>
+      </div>
+    </header>
+
+    <!-- Context Detection Pill -->
+    <div class="context-banner" id="contextBanner">
+      <span class="radar-icon">🎯</span>
+      <span class="context-text" id="contextText">Detecting active job page...</span>
+      <span class="context-badge" id="contextBadge">Ready</span>
+    </div>
+
+    <!-- Candidate Profile Card -->
+    <section class="card profile-card">
+      <div class="profile-top">
+        <div class="avatar-circle" id="candidateAvatar">AP</div>
+        <div class="profile-details">
+          <h2 class="candidate-name" id="candidateName">Loading profile...</h2>
+          <p class="candidate-title" id="candidateTitle">Target role syncing...</p>
+        </div>
+        <div class="profile-badge">
+          <span class="badge-icon">✓</span>
+          <span class="badge-text">98% Ready</span>
+        </div>
+      </div>
+      <div class="profile-bottom">
+        <div class="resume-pill">
+          <span class="pill-icon">📄</span>
+          <span class="resume-name" id="activeResumeName">master_resume.json</span>
+        </div>
+        <input type="file" id="resumeUploadInput" accept=".pdf,.json,.txt" style="display: none;">
+        <button class="btn-sm btn-ghost" id="uploadResumeBtn">Switch Resume</button>
+      </div>
+      <div id="uploadStatusMsg" class="upload-msg"></div>
+    </section>
+
+    <!-- Quota & Subscription Meter Card -->
+    <section class="card quota-card">
+      <div class="quota-header">
+        <div class="quota-label-group">
+          <span class="quota-title">Daily Applications</span>
+          <span class="quota-plan" id="planBadge">Free Tier</span>
+        </div>
+        <button class="btn-link" id="upgradeBtn">⚡ Upgrade</button>
+      </div>
+      <div class="progress-track">
+        <div class="progress-bar" id="quotaProgressBar" style="width: 70%;"></div>
+      </div>
+      <div class="quota-footer">
+        <span id="quotaRemainingText">14 / 20 Applications Left Today</span>
+        <span class="reset-timer" id="quotaResetText">Resets daily</span>
+      </div>
+    </section>
+
+    <!-- Primary Conversion CTA -->
+    <div class="primary-action-wrap">
+      <button class="btn-cta" id="fillTabBtn">
+        <span class="cta-icon">⚡</span>
+        <div class="cta-text-group">
+          <span class="cta-title">Auto-Fill This Job Tab</span>
+          <span class="cta-sub">1-Click ATS Tailor & Reasoning</span>
+        </div>
+      </button>
+      <div class="platform-support">
+        <span class="support-label">Works across</span>
+        <div class="platform-tags">
+          <span class="tag">LinkedIn</span>
+          <span class="tag">Greenhouse</span>
+          <span class="tag">Lever</span>
+          <span class="tag">Workday</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Master Excel Tracker Card -->
+    <section class="card tracker-card">
+      <div class="tracker-card-header">
+        <div class="tracker-title-group">
+          <div class="sheet-icon">📊</div>
+          <div>
+            <h3 class="tracker-title">Excel Application Tracker</h3>
+            <p class="tracker-subtitle">Unified log across all job portals</p>
+          </div>
+        </div>
+        <button class="btn-link" id="openWebTrackerBtn">View Sheet ↗</button>
+      </div>
+      <button class="btn-download" id="downloadExcelBtn">
+        <div class="download-content">
+          <span class="download-icon">📥</span>
+          <div class="download-labels">
+            <span class="download-main">Download Applications (Excel / CSV)</span>
+            <span class="download-sub">All applied & drafted jobs in one sheet</span>
+          </div>
+        </div>
+        <span class="format-badge">.CSV</span>
+      </button>
+    </section>
+
+    <!-- Recent Applications Card -->
+    <section class="card recent-card">
+      <div class="recent-header">
+        <span class="recent-title">Recent Applications</span>
+        <span class="count-pill" id="trackerCountBadge">0 logged</span>
+      </div>
+      <div class="recent-list" id="trackerList">
+        <div class="tracker-empty">No applications tracked yet. Click Auto-Fill on any job to start!</div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-sync">
+        <span class="sync-dot"></span>
+        <span>Deterministic Anti-Hallucination Guard Active</span>
+      </div>
+      <div class="shortcut-tip">
+        Press <kbd>Alt</kbd> + <kbd>J</kbd> or click on-page button to apply
+      </div>
+    </footer>
+
+    <!-- Settings & Recharge Modal Drawer -->
+    <div class="modal-backdrop" id="settingsModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>⚙️ Settings & Subscription</h3>
+          <button class="close-btn" id="closeSettingsBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Current Plan</label>
+            <div class="plan-status-box">
+              <span id="modalPlanName">Free Plan (20 Daily Applies)</span>
+              <button class="btn-sm btn-primary" id="modalUpgradeBtn">⚡ Add 50 Credits</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Backend Engine URL</label>
+            <input type="text" id="apiUrlInput" value="http://127.0.0.1:3000" class="input-field">
+            <span class="field-hint">Default local AI server address</span>
+          </div>
+          <div class="form-group">
+            <label>User ID (Tenant Isolation)</label>
+            <input type="text" id="userIdDisplay" readonly class="input-field input-readonly">
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline" id="saveSettingsBtn">Save & Reconnect</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

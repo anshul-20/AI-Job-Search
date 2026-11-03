@@ -1,0 +1,21 @@
+Senior React Native Developer - FinServe Labs (Remote, India)
+
+FinServe Labs is building a consumer banking app used by hundreds of thousands of customers. We are looking for a
+Senior React Native Developer with 4+ years of experience to own features end to end.
+
+Responsibilities
+- Build and maintain cross-platform mobile features in React Native and TypeScript
+- Optimize app performance, startup time and memory usage
+- Integrate REST and GraphQL APIs and push notifications
+- Set up and maintain CI/CD pipelines for mobile releases
+- Review code and mentor junior engineers
+
+Requirements
+- 4+ years of professional React Native experience
+- Strong TypeScript, Redux and REST API skills
+- Experience with unit testing (Jest) and CI/CD
+- Experience publishing apps to the App Store and Google Play
+
+Nice to have
+- GraphQL, Kubernetes exposure, Detox end-to-end testing
+- Experience in fintech or banking

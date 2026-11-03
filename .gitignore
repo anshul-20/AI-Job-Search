@@ -1,0 +1,10 @@
+node_modules
+output
+.env
+.env.local
+.DS_Store
+.claude/
+dist/staging
+data/browser_profile
+data/users
+data/quota.json

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{basics.name}} - Resume</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: Helvetica, Arial, sans-serif; font-size: 10pt; line-height: 1.35; color: #111; margin: 0; }
+  h1 { font-size: 20pt; margin: 0; letter-spacing: 0.3px; }
+  .title { font-size: 11pt; margin: 2px 0 4px; color: #333; }
+  .contact { font-size: 9pt; color: #333; }
+  h2 { font-size: 10.5pt; text-transform: uppercase; letter-spacing: 0.8px; margin: 12px 0 5px; padding-bottom: 2px; border-bottom: 0.75pt solid #444; }
+  p { margin: 0 0 3px; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .row .right { white-space: nowrap; font-size: 9pt; color: #333; }
+  .item { margin-bottom: 7px; break-inside: avoid-page; }
+  .item-head { font-weight: bold; }
+  .sub { color: #333; }
+  ul { margin: 2px 0 0; padding-left: 15px; }
+  li { margin-bottom: 1.5px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>{{basics.name}}</h1>
+  <div class="title">{{basics.title}}</div>
+  <div class="contact">{{contactLine}}</div>
+</header>
+
+{{#if basics.summary}}
+<section>
+  <h2>Summary</h2>
+  <p>{{basics.summary}}</p>
+</section>
+{{/if}}
+
+{{#if skills.length}}
+<section>
+  <h2>Skills</h2>
+  {{#each skills}}
+  <p><strong>{{category}}:</strong> {{join items}}</p>
+  {{/each}}
+</section>
+{{/if}}
+
+{{#if experience.length}}
+<section>
+  <h2>Experience</h2>
+  {{#each experience}}
+  <div class="item">
+    <div class="row"><span class="item-head">{{role}}, {{company}}</span><span class="right">{{dates start end}}</span></div>
+    {{#if location}}<div class="sub">{{location}}</div>{{/if}}
+    <ul>{{#each bullets}}<li>{{text}}</li>{{/each}}</ul>
+  </div>
+  {{/each}}
+</section>
+{{/if}}
+
+{{#if projects.length}}
+<section>
+  <h2>Projects</h2>
+  {{#each projects}}
+  <div class="item">
+    <div class="row"><span class="item-head">{{name}}</span>{{#if link}}<span class="right">{{link}}</span>{{/if}}</div>
+    {{#if tech.length}}<div class="sub">{{join tech}}</div>{{/if}}
+    <ul>{{#each bullets}}<li>{{text}}</li>{{/each}}</ul>
+  </div>
+  {{/each}}
+</section>
+{{/if}}
+
+{{#if education.length}}
+<section>
+  <h2>Education</h2>
+  {{#each education}}
+  <div class="item">
+    <div class="row"><span class="item-head">{{degree}}</span><span class="right">{{dates start end}}</span></div>
+    <div class="sub">{{institution}}{{#if score}} | {{score}}{{/if}}</div>
+  </div>
+  {{/each}}
+</section>
+{{/if}}
+
+{{#if certifications.length}}
+<section>
+  <h2>Certifications</h2>
+  <ul>{{#each certifications}}<li>{{this}}</li>{{/each}}</ul>
+</section>
+{{/if}}
+</body>
+</html>

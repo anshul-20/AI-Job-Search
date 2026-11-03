@@ -1,5 +1,10 @@
 # JobCopilot AI — 1-Click ATS Auto-Filler & Multi-Portal Job Search
 
+[![Direct Download](https://img.shields.io/badge/Download_Extension_v1.0.0-ZIP-10B981?style=for-the-badge&logo=googlechrome&logoColor=white)](https://github.com/anshul-20/AI-Job-Search/raw/main/dist/ai-job-copilot-extension.zip)
+[![Release](https://img.shields.io/badge/GitHub_Release-v1.0.0-06B6D4?style=for-the-badge&logo=github&logoColor=white)](https://github.com/anshul-20/AI-Job-Search/releases/tag/v1.0.0)
+[![Edge Add-ons](https://img.shields.io/badge/Microsoft_Edge-Ready-0078D7?style=for-the-badge&logo=microsoftedge&logoColor=white)](https://partner.microsoft.com/en-us/dashboard/microsoftedge)
+[![Zero Fees](https://img.shields.io/badge/Cost-100%25_Free_Alternative-success?style=for-the-badge)](https://github.com/anshul-20/AI-Job-Search)
+
 An intelligent, production-ready job search and application copilot built for high scale. Automates resume tailoring, intelligent form pre-filling across all major career portals (LinkedIn, Greenhouse, Lever, Workday, Ashby, SmartRecruiters), logs all applications into a unified Excel tracker sheet, and enforces deterministic anti-hallucination verification.
 
 ---
@@ -91,14 +96,24 @@ The server runs on `http://localhost:3000` with cloud readiness on `0.0.0.0`.
 
 ---
 
-## 🧩 Installing the Chrome Extension
+## 🧩 Installing the Extension (100% Free Options)
 
-1. Open Chrome and go to `chrome://extensions/`.
-2. Toggle on **Developer mode** (top-right corner).
-3. Click **Load unpacked** (top-left) and select the [`extension/`](file:///d:/AI-Job-Search/extension) directory.
-4. Pin the **JobCopilot AI** (⚡) extension icon to your toolbar.
-5. Navigate to any job posting on Greenhouse, Lever, Workday, or LinkedIn.
-6. Click **"⚡ Auto-Fill This Job Tab"** or use the on-page floating button!
+### Option 1: 1-Click Direct Download (Chrome / Edge / Brave)
+1. **Download**: Click [[Download Extension ZIP (v1.0.0)]](https://github.com/anshul-20/AI-Job-Search/raw/main/dist/ai-job-copilot-extension.zip) or grab it from [GitHub Releases](https://github.com/anshul-20/AI-Job-Search/releases/tag/v1.0.0).
+2. **Windows Quick Install**: Double-click [`install_extension.bat`](file:///d:/AI-Job-Search/install_extension.bat) — it opens your browser's extensions page automatically.
+3. **Or Manual Install**:
+   - Go to `chrome://extensions/` (or `edge://extensions/`).
+   - Turn **ON** Developer mode (top-right).
+   - Click **Load unpacked** (top-left) and select the unzipped `extension/` folder.
+4. Pin the **JobCopilot AI** (⚡) icon to your toolbar!
+
+### Option 2: Microsoft Edge Add-ons Store (100% Free Store Listing)
+Microsoft provides a 100% free developer program with **$0 registration fee**:
+1. Open the [Microsoft Edge Partner Center](https://partner.microsoft.com/en-us/dashboard/microsoftedge).
+2. Sign in with any free Microsoft account and click **Create new extension**.
+3. Upload [`dist/ai-job-copilot-extension.zip`](file:///d:/AI-Job-Search/dist/ai-job-copilot-extension.zip).
+4. Copy description & metadata from [`extension/STORE_LISTING.md`](file:///d:/AI-Job-Search/extension/STORE_LISTING.md) and upload screenshots from [`extension/screenshots/`](file:///d:/AI-Job-Search/extension/screenshots/).
+5. Submit for free certification. Once published, both Edge and Chrome users can install directly from your Edge store page!
 
 ---
 
